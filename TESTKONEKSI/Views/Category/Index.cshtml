@@ -1,0 +1,56 @@
+﻿@model List<Category>
+@if (TempData["success"] != null)
+{
+    <p class="text-success">@TempData["success"]</p>
+}
+
+<div class="container">
+    <div class="row pt-4 pb-3">
+        <div class="col-6">
+            <h2 class="text-primary">
+                Category List
+            </h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Category" asp-action="Create" class="btn btn-primary rounded-5">
+                <i class="bi bi-plus-lg"></i> Create New Category
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>
+                Category Name
+            </th>
+            <th>
+                Display Order
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @*OrderBy digunakan untuk mengurutkan berdasarkan DisplayOrder dalam kasus ini*@
+        @foreach (var obj in Model.OrderBy(u => u.DisplayOrder))
+        {
+            <tr>
+                <td>@obj.Name</td>
+                <td>@obj.DisplayOrder</td>
+                <td>
+                    <div class="w-75 btn-group" role="group">
+                        @*asp-route-... digunakan untuk passing data ke controller, semisal id, dan jika ditulis asp-route-nurId maka di controller param tersebut menjadi (int? nurId)*@
+                        <a asp-controller="Category" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
+                            <i class="bi bi-pencil-square"></i> Edit
+                        </a>
+                        <a asp-controller="Category" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-danger mx-2">
+                            <i class="bi bi-trash"></i> Delete
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
